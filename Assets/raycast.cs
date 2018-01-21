@@ -26,30 +26,25 @@ public class raycast : MonoBehaviour {
 	void Update () {
 		Ray ray = cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
 		Ray fwd = new Ray (transform.position, transform.forward);
-		if (Physics.Raycast (ray, out hit)) 
-		{
-			if (firstHit)
-			{
+		if (Physics.Raycast (ray, out hit)){
+			if (firstHit){
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
 				lastHit = hit;
 				firstHit = false;
 			} 
-			else if (!lastHit.collider.name.Equals (hit.collider.name)) 
-			{
+			else if (!lastHit.collider.name.Equals (hit.collider.name)) {
 				Debug.Log (lastHit.collider.name);
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
 				lastHit.collider.gameObject.GetComponent<MeshRenderer> ().material = normalMaterial;
 				lastHit = hit;
 			} 
-			else 
-			{
+			else{
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
-				lastHit.collider.gameObject.GetComponent<MeshRenderer> ().material = normalMaterial;
+//				lastHit.collider.gameObject.GetComponent<MeshRenderer> ().material = normalMaterial;
 			}
 		} 
 		else 
-		{
 			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
-		}
+		
 	}
 }
