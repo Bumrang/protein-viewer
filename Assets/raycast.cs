@@ -8,8 +8,9 @@ public class raycast : MonoBehaviour {
 	Camera cam;
 	RaycastHit hit;
 	RaycastHit lastHit;
-	Shader outlineMaterial = Shader.Find ("Outlined/Silhouetted Diffuse");
-	Shader normalMaterial = Shader.Find ("Standard");
+
+	Shader outlineMaterial = Shader.Find ("NewSurfaceShader.shader");
+	Shader normalMaterial = Shader.Find ("NewSurfaceShader.shader");
 
 
 	// Use this for initialization
