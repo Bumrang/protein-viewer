@@ -18,7 +18,7 @@ public class raycast : MonoBehaviour {
 		cam = GetComponent<Camera>().GetComponent<Camera>();
 		outlineMaterial = Resources.Load("New Material") as Material;
 		normalMaterial = Resources.Load ("StandardMaterial") as Material;
-		lastHit = new RaycastHit ();
+		Physics.Raycast (cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0)), out lastHit);
 		firstHit = true;
 	}
 	
@@ -28,17 +28,18 @@ public class raycast : MonoBehaviour {
 		Ray fwd = new Ray (transform.position, transform.forward);
 		if (Physics.Raycast (ray, out hit)) 
 		{
-			if (!lastHit.Equals (hit) && !firstHit) 
-			{
-				lastHit.collider.gameObject.GetComponent<MeshRenderer> ().material = normalMaterial;
-				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
-				lastHit = hit;
-			} 
-			else if (firstHit) 
+			if (firstHit)
 			{
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
 				lastHit = hit;
 				firstHit = false;
+			} 
+			else if (!lastHit.collider.name.Equals (hit.collider.name)) 
+			{
+				Debug.Log (lastHit.collider.name);
+				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
+				lastHit.collider.gameObject.GetComponent<MeshRenderer> ().material = normalMaterial;
+				lastHit = hit;
 			} 
 			else 
 			{
