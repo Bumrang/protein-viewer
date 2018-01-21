@@ -26,25 +26,38 @@ public class raycast : MonoBehaviour {
 	void Update () {
 		Ray ray = cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
 		Ray fwd = new Ray (transform.position, transform.forward);
-		if (Physics.Raycast (ray, out hit)){
-			if (firstHit){
+		if (Physics.Raycast (ray, out hit)) {
+			if (firstHit) {
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
 				lastHit = hit;
 				firstHit = false;
-			} 
-			else if (!lastHit.collider.name.Equals (hit.collider.name)) {
+			} else if (!lastHit.collider.name.Equals (hit.collider.name)) {
 				Debug.Log (lastHit.collider.name);
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
-				lastHit.collider.gameObject.GetComponent<MeshRenderer> ().material = normalMaterial;
+				resetColor (lastHit);
 				lastHit = hit;
-			} 
-			else{
+			} else
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
-//				lastHit.collider.gameObject.GetComponent<MeshRenderer> ().material = normalMaterial;
-			}
-		} 
-		else 
-			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
+		} else { 
+			resetColor (lastHit);
+		}
 		
+	}
+
+	void resetColor(RaycastHit lastHit){
+		if (lastHit.collider.gameObject.name.Contains ("Sulfur")) 
+			lastHit.collider.gameObject.GetComponent<MeshRenderer> ().material = Resources.Load ("Sulfur") as Material;
+		else if (lastHit.collider.gameObject.name.Contains("Hydrogen"))
+			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = Resources.Load ("Hydrogen") as Material;
+		else if (lastHit.collider.gameObject.name.Contains("Mercury"))
+			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = Resources.Load ("Mercury") as Material;
+		else if (lastHit.collider.gameObject.name.Contains("Oxygen"))
+			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = Resources.Load ("Oxygen") as Material;
+		else if (lastHit.collider.gameObject.name.Contains("Nitrogen"))
+			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = Resources.Load ("Nitrogen") as Material;
+		else if (lastHit.collider.gameObject.name.Contains("Carbon"))
+			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = Resources.Load ("Carbon") as Material;
+		else if (lastHit.collider.gameObject.name.Contains("Ball_HD"))
+			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = Resources.Load ("Ball_HD") as Material;
 	}
 }
