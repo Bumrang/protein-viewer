@@ -8,8 +8,8 @@ public class raycast : MonoBehaviour {
 	Camera cam;
 	RaycastHit hit;
 	RaycastHit lastHit;
-	Material outlineMaterial = Resources.Load ("Outlined/Silhouetted Diffuse", typeof(Material)) as Material;
-	Material normalMaterial = Resources.Load ("Standard", typeof(Material)) as Material;
+	Shader outlineMaterial = Shader.Find ("Outlined/Silhouetted Diffuse");
+	Shader normalMaterial = Shader.Find ("Standard");
 
 
 	// Use this for initialization
@@ -23,11 +23,11 @@ public class raycast : MonoBehaviour {
 		Ray ray = cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
 		Ray fwd = new Ray (transform.position, transform.forward);
 		if (Physics.Raycast (ray, out hit)) {
-			Debug.Log ("I hit " + hit.collider.gameObject.name);
+			Debug.Log (hit.collider.gameObject.GetComponent<MeshRenderer>().material.shader.name);
 			lastHit = hit;
-			//hit.collider.attachedRigidbody.gameObject
+			hit.collider.gameObject.GetComponent<MeshRenderer>().material.shader = outlineMaterial;
 		} else {
-			lastHit.collider.material = normalMaterial;
+			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material.shader = normalMaterial;
 		}
 			
 

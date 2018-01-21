@@ -10,7 +10,6 @@ public class hover : MonoBehaviour {
 		foreach (MeshFilter child in meshes)
 		{
 			child.gameObject.AddComponent(typeof(MeshCollider));
-			Debug.Log ("Added mesh collider to " + child.name);
 		}
 	}
 	
