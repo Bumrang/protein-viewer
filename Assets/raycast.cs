@@ -10,6 +10,7 @@ public class raycast : MonoBehaviour {
 	public RaycastHit lastHit;
 	public Material normalMaterial;
 	public Material outlineMaterial;
+	public bool firstHit;
 
 
 	// Use this for initialization
@@ -18,6 +19,7 @@ public class raycast : MonoBehaviour {
 		outlineMaterial = Resources.Load("New Material") as Material;
 		normalMaterial = Resources.Load ("StandardMaterial") as Material;
 		lastHit = new RaycastHit ();
+		firstHit = true;
 	}
 	
 	// Update is called once per frame
@@ -25,18 +27,19 @@ public class raycast : MonoBehaviour {
 		Ray ray = cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
 		Ray fwd = new Ray (transform.position, transform.forward);
 		if (Physics.Raycast (ray, out hit)) {
-			if (!lastHit.Equals(hit)) {
+			if (!lastHit.Equals (hit) && !firstHit) {
 				lastHit.collider.gameObject.GetComponent<MeshRenderer> ().material = normalMaterial;
-				lastHit = hit;
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
+			} else if (firstHit) {
+				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
+				lastHit = hit;
+				firstHit = false;
 			} else {
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
+				lastHit = hit;
 			}
 		} else {
 			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
 		}
-			
-
-		Debug.DrawRay (transform.position, transform.forward, Color.yellow, 999, false);
 	}
 }
