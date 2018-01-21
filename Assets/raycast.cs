@@ -30,7 +30,7 @@ public class raycast : MonoBehaviour {
 		ballhd = Resources.Load("Ball_HD") as Material;;
 		Physics.Raycast (cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0)), out lastHit);
 		firstHit = true;
-        newAtom = gameObject.GetComponent("UpdateAtomText") as UpdateAtomText;
+		newAtom = GameObject.FindObjectOfType<UpdateAtomText>();
         reset = false;
 
 	}
@@ -38,7 +38,6 @@ public class raycast : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Ray ray = cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
-		Ray fwd = new Ray (transform.position, transform.forward);
 		if (Physics.Raycast (ray, out hit)) {
 			Debug.Log (hit.collider.name);
             if (firstHit)
@@ -52,7 +51,7 @@ public class raycast : MonoBehaviour {
             {
                 Debug.Log(lastHit.collider.name);
                 hit.collider.gameObject.GetComponent<MeshRenderer>().material = outlineMaterial;
-				//lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
+				lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
                 resetColor(lastHit);
                 lastHit = hit;
             }
@@ -61,7 +60,7 @@ public class raycast : MonoBehaviour {
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
 		} else { 
 			resetColor (lastHit);
-			//lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
+			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
 		}
 		
 	}
@@ -71,31 +70,31 @@ public class raycast : MonoBehaviour {
 		if (lastHit.collider.name.Contains ("Sulfur"))
         {
 			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = sulfur;
-           // newAtom.ChangeText("Sulfur");
+            newAtom.ChangeText("Sulfur");
         } else if (lastHit.collider.name.Contains("Hydrogen"))
         {
 			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = hydrogen;
-          //  newAtom.ChangeText("Hydrogen");
+            newAtom.ChangeText("Hydrogen");
         } else if (lastHit.collider.name.Contains("Mercury"))
         {
 			lastHit.collider.gameObject.GetComponent<MeshRenderer> ().material = mercury;
-           // newAtom.ChangeText("Mercury");
+            newAtom.ChangeText("Mercury");
         } else if (lastHit.collider.name.Contains("Oxygen"))
         {
 			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = oxygen;
-           // newAtom.ChangeText("Oxygen");
+            newAtom.ChangeText("Oxygen");
         } else if (lastHit.collider.name.Contains("Nitrogen"))
         {
 			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = nitrogen;
-           // newAtom.ChangeText("Nitrogen");
+            newAtom.ChangeText("Nitrogen");
         } else if (lastHit.collider.name.Contains("Carbon"))
         {
 			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = carbon;
-            //newAtom.ChangeText("Carbon");
+            newAtom.ChangeText("Carbon");
         } else if (lastHit.collider.name.Contains("Ball_HD"))
         {
 			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = ballhd;
-            //newAtom.ChangeText("");
+            newAtom.ChangeText("");
         }
         reset = false;
 			

@@ -9,13 +9,12 @@ public class UpdateAtomText : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        text = GetComponent<TextMeshProUGUI>();
-        text.text = "";
+		gameObject.GetComponent<TextMeshProUGUI>().SetText("1UUN");
+//        text = GetComponent<TextMeshProUGUI>();
 	}
 
-    public void ChangeText(string atom)
-    {
-        text.text = atom;
-    }
+    public void ChangeText(string atom){
+		gameObject.GetComponent<TextMeshProUGUI> ().SetText (atom);
+	}
 	
 }
