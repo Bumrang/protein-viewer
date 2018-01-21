@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Globalization;
 
 namespace lmao
 {
@@ -26,17 +27,19 @@ namespace lmao
 				StreamReader reader = new StreamReader (fileName);
 				String line = reader.ReadLine ();
 
+				TextInfo textInfo = new CultureInfo ("en-US", false).TextInfo;
+
 				classification = findInfo (header, fileName, line, reader);
-				Console.WriteLine (classification);
+				Console.WriteLine (textInfo.ToTitleCase(textInfo.ToLower(classification)));
 
 				name = findInfo (title, fileName, line, reader);
-				Console.WriteLine (name);
+				Console.WriteLine (textInfo.ToTitleCase(textInfo.ToLower(name)));
 
 				organismName = findExpression (organism, fileName, line, reader);
-				Console.WriteLine (organismName);
+				Console.WriteLine (textInfo.ToTitleCase(textInfo.ToLower(organismName)));
 
 				expressionSystem = findExpression (expsys, fileName, line, reader);
-				Console.WriteLine (expressionSystem);
+				Console.WriteLine (textInfo.ToTitleCase(textInfo.ToLower(expressionSystem)));
 
 
 			}
@@ -48,8 +51,7 @@ namespace lmao
 		static String findInfo(String text, String fileName, String line, StreamReader reader ){
 			while (!line.StartsWith (text))
 				line = reader.ReadLine ();
-			String noSpace;
-			noSpace = Regex.Replace(line, " {2,}", " ");
+			String noSpace = Regex.Replace(line, " {2,}", " ");
 			String head = noSpace.Substring(text.Length + 1, noSpace.Length - text.Length - 1);
 
 			return Regex.Replace (head, "[^a-zA-Z ]", "");
