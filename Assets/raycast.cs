@@ -5,18 +5,19 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class raycast : MonoBehaviour {
 
-	Camera cam;
-	RaycastHit hit;
-	RaycastHit lastHit;
-
-	Shader outlineMaterial = Shader.Find ("NewSurfaceShader.shader");
-	Shader normalMaterial = Shader.Find ("NewSurfaceShader.shader");
+	public Camera cam;
+	public RaycastHit hit;
+	public RaycastHit lastHit;
+	public Material normalMaterial;
+	public Material outlineMaterial;
 
 
 	// Use this for initialization
 	void Start () {
 		cam = GetComponent<Camera>().GetComponent<Camera>();
-		Debug.Log (cam.name);
+		outlineMaterial = Resources.Load("New Material") as Material;
+		normalMaterial = Resources.Load ("StandardMaterial") as Material;
+		lastHit = new RaycastHit ();
 	}
 	
 	// Update is called once per frame
@@ -24,11 +25,15 @@ public class raycast : MonoBehaviour {
 		Ray ray = cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
 		Ray fwd = new Ray (transform.position, transform.forward);
 		if (Physics.Raycast (ray, out hit)) {
-			Debug.Log (hit.collider.gameObject.GetComponent<MeshRenderer>().material.shader.name);
-			lastHit = hit;
-			hit.collider.gameObject.GetComponent<MeshRenderer>().material.shader = outlineMaterial;
+			if (!lastHit.Equals(hit)) {
+				lastHit.collider.gameObject.GetComponent<MeshRenderer> ().material = normalMaterial;
+				lastHit = hit;
+				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
+			} else {
+				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
+			}
 		} else {
-			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material.shader = normalMaterial;
+			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
 		}
 			
 
