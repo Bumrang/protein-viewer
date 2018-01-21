@@ -43,14 +43,16 @@ public class raycast : MonoBehaviour {
             {
                 Debug.Log(lastHit.collider.name);
                 hit.collider.gameObject.GetComponent<MeshRenderer>().material = outlineMaterial;
-                resetColor(lastHit);
+				lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
+                //resetColor(lastHit);
                 lastHit = hit;
             }
             else
                 reset = true;
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
 		} else { 
-			resetColor (lastHit);
+			//resetColor (lastHit);
+			lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
 		}
 		
 	}
@@ -85,8 +87,6 @@ public class raycast : MonoBehaviour {
         {
             lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Ball_HD") as Material;
             newAtom.ChangeText("");
-
-
         }
         reset = false;
 			
