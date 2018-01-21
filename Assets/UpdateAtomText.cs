@@ -5,11 +5,11 @@ using UnityEngine.UI;
 using TMPro;
 
 public class UpdateAtomText : MonoBehaviour {
-    public TextMeshPro text;
+    public TextMeshProUGUI text;
 
 	// Use this for initialization
 	void Start () {
-        text = GetComponent<TextMeshPro>();
+        text = GetComponent<TextMeshProUGUI>();
         text.text = "";
 	}
 

@@ -13,7 +13,7 @@ public class raycast : MonoBehaviour {
 	public Material outlineMaterial;
     public UpdateAtomText newAtom;
 	public bool firstHit;
-
+    public bool reset;
 
 	// Use this for initialization
 	void Start () {
@@ -23,6 +23,8 @@ public class raycast : MonoBehaviour {
 		Physics.Raycast (cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0)), out lastHit);
 		firstHit = true;
         newAtom = gameObject.GetComponent("UpdateAtomText") as UpdateAtomText;
+        reset = false;
+
 	}
 	
 	// Update is called once per frame
@@ -30,16 +32,22 @@ public class raycast : MonoBehaviour {
 		Ray ray = cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
 		Ray fwd = new Ray (transform.position, transform.forward);
 		if (Physics.Raycast (ray, out hit)) {
-			if (firstHit) {
-				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
-				lastHit = hit;
-				firstHit = false;
-			} else if (!lastHit.collider.name.Equals (hit.collider.name)) {
-				Debug.Log (lastHit.collider.name);
-				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
-				resetColor (lastHit);
-				lastHit = hit;
-			} else
+            if (firstHit)
+            { 
+                hit.collider.gameObject.GetComponent<MeshRenderer>().material = outlineMaterial;
+                lastHit = hit;
+                firstHit = false;
+                reset = true;
+            }
+            else if (!lastHit.collider.name.Equals(hit.collider.name))
+            {
+                Debug.Log(lastHit.collider.name);
+                hit.collider.gameObject.GetComponent<MeshRenderer>().material = outlineMaterial;
+                resetColor(lastHit);
+                lastHit = hit;
+            }
+            else
+                reset = true;
 				hit.collider.gameObject.GetComponent<MeshRenderer> ().material = outlineMaterial;
 		} else { 
 			resetColor (lastHit);
@@ -48,6 +56,7 @@ public class raycast : MonoBehaviour {
 	}
 
 	void resetColor(RaycastHit lastHit){
+        if (!reset) { return; }
 		if (lastHit.collider.gameObject.name.Contains ("Sulfur"))
         {
             lastHit.collider.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Sulfur") as Material;
@@ -79,6 +88,7 @@ public class raycast : MonoBehaviour {
 
 
         }
+        reset = false;
 			
 	}
 }
